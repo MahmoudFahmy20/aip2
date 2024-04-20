@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .container {
+              display: flex;
+              justify-content: center;
+              align-items: flex-start;
+              height: 5vh;
+              padding-top: 20px;
+            }
+          
+            .table {
+              display: flex;
+              flex-direction: column;
+              width: 80%;
+              border-collapse: collapse;
+            }
+          
+            .row {
+              display: flex;
+              width: 100%;
+              border: 8px solid #1C41D8;
+              background-color: #fff;
+              transition: border 0.5s ease-in-out;
+            }
+          
+            .row.colored {
+                border: 8px solid #d81c1c;
+            }
+
+            .bounce {
+               animation: bounceAnimation 1s infinite alternate;
+            }
+
+            .cell {
+              flex: 1;
+              padding: 10px;
+              text-align: center;
+            }
+
+@keyframes bounceAnimation {
+  from { transform: translateY(0); }
+  to { transform: translateY(10px); }
+}
+          </style>
+      </head>
+</head>
+<body>
+    <div class="container">
+        <div class="table">
+          </div>
+      </div>
+    <div class="container">
+        <div class="table">
+            <div class="row">
+                <div class="cell"><b>First name</b></div>
+                <div class="cell"><input type="text" id="fname" name="fname" value=""></div>
+            </div>
+            <div class="row">
+                <div class="cell"><b>Last name</b></div>
+                <div class="cell"><input type="text" id="lname" name="lname" value=""></div>
+            </div>
+            <div class="row">
+                <div class="cell"><b>Age</b></div>
+                <div class="cell">
+                    <select name="age">
+                        <option value="No data entered">Age</option>
+                        <option value="15-24">15-24</option>
+                        <option value="25-34">25-34</option>
+                        <option value="35-44">35-44</option>
+                        <option value="45-54">45-54</option>
+                        <option value="60+">60+</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell"><b>Sex</b></div>
+                <div class="cell">Male: 
+                    <input type="radio" name="sex" value="Male">
+                    Female:
+                    <input type="radio" name="sex" value="Female">
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell"><b>Hobbies</b></div>
+                <div class="cell"> 
+                    <input type="checkbox" name="set2" value="Football"> Football <br>
+                    <input type="checkbox" name="set2" value="Basketball"> Basketball <br>
+                    <input type="checkbox" name="set2" value="Swimming"> Swimming <br> 
+                    <input type="checkbox" name="set2" value="Reading"> Reading
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell"><button id="colorChangeButton"><b>Change Color</b></button></div>
+                <div class="cell"><button onclick="myFunction()"><b>Ok</b></button></div>
+                <div class="cell"><button><b>Cancel</b></button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+        $("#colorChangeButton").on("click", function() {
+        $(".row").toggleClass("colored"); // Toggle color on rows
+        });
+
+        $(".container").addClass("bounce"); // Add class for bouncing animation
+
+        // Bouncing animation
+        function animateTable() {
+        $(".container").each(function() {
+        if (!$(this).is(":animated")) {
+        $(this).animate({ marginTop: "20px" }, 200, "easeInSine"); // Move down slightly
+        $(this).animate({ marginTop: "0px" }, 400, "easeOutSine", function() {
+          animateTable(); // Recursively call for continuous animation
+        });
+      }
+    });
+        }
+         animateTable(); // Start the animation
+    });
+
+
+
+    
+        function myFunction() {
+            let fname = document.getElementsByName("fname")[0].value;
+            let lname = document.getElementsByName("lname")[0].value;
+            let age = document.getElementsByName("age")[0].value;
+            let sex = document.querySelector('input[name="sex"]:checked').value
+            let hobby = [];
+            let hobbyoptions = document.querySelectorAll('input[name="set2"]:checked');
+            for (let i=0; i < hobbyoptions.length; i++){
+                hobby.push(hobbyoptions[i].value);
+            }
+            
+            let message = `First name: ${fname}\nLast name: ${lname}\nAge: ${age}\nSex: ${sex}\nHobbies: ${hobby.join(", ")}`;
+            alert(message);
+        }
+    </script>
+</body>
+</html>
+
